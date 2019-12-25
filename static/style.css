@@ -16,7 +16,8 @@ table.center {
 button {
   padding: 0;
   border: none;
-  font: inherit;
+  font-size: 25;
+  font-family: monospace, monospace;
   color: inherit;
   background-color: transparent;
   /* show a hand cursor on hover; some argue that we
