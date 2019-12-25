@@ -1,3 +1,7 @@
+"""
+runs in the background watching for ./lines/* events
+corresponding to handled gpio lines
+"""
 import errno
 import os
 
@@ -9,23 +13,28 @@ LINES_GPIOS = dict(
     line1=LED(27),
     line2=LED(22),
 )
+PATH_WATCH = '/tmp/lines'
 
 
 def main():
     inotifier = inotify.adapters.Inotify()
-    inotifier.add_watch('/tmp/lines')
+    inotifier.add_watch(PATH_WATCH)
 
     for event in inotifier.event_gen(yield_nones=False):
         (_, type_names, path, filename) = event
 
-        # debug
-        # print("PATH=[{}] FILENAME=[{}] EVENT_TYPES={}".format(
-        #     path, filename, type_names))
-
         line = filename
         if line not in LINES_GPIOS:
-            # print('skipped {}'.format(line))
+            print('skipped {}'.format(line))
             continue
+
+        if 'IN_CREATE' not in type_names or 'IN_DELETE' not in type_names:
+            print('skipped {}'.format(line))
+            continue
+
+        # debug
+        print('path="{}" filename="{}" EVENT_TYPES={!s}'.format(
+            path, filename, type_names))
 
         for event_type in type_names:
             if event_type == 'IN_CREATE':
@@ -38,7 +47,7 @@ def main():
 
 if __name__ == '__main__':
     try:
-        os.mkdir('/tmp/lines')
+        os.mkdir(PATH_WATCH)
     except OSError as exc:
         if exc.errno != errno.EEXIST:
             raise
