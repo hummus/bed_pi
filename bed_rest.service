@@ -1,0 +1,9 @@
+[Unit]
+Description=Bed Movement HTTP Service
+ConditionPathExists=/home/pi/bed_pi/bed_rest.py
+
+[Service]
+ExecStart=/home/pi/bed_pi/bed_rest.py
+
+[Install]
+WantedBy=basic.target

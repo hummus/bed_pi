@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from threading import Thread
 import json
 import os
@@ -103,4 +104,4 @@ def bed_recline_movement_pulse(movement):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')

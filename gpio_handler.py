@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 runs in the background watching for ./lines/* events
 corresponding to handled gpio lines

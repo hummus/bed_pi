@@ -1,0 +1,9 @@
+[Unit]
+Description=GPIO-handler for movement
+ConditionPathExists=/home/pi/bed_pi/gpio_handler.py
+
+[Service]
+ExecStart=/home/pi/bed_pi/gpio_handler.py
+
+[Install]
+WantedBy=basic.target
